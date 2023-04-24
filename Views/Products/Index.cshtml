@@ -1,0 +1,81 @@
+﻿@model IEnumerable<casestudy.Model.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="model-fade" id="product-form-model" tabindex="-1" role="dialog">
+    <div class="model-dialog" role="document">
+        <div class="model-content">
+            <form id="product-form">
+                <div class="model-header">
+                    <h5 class="model-title" id="product-form-model-label">Add/Edit Product </h5>
+                    <button type="button" class="close" data-dismiss="model" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="model-body">
+                    <input type="hidden" name="Id" value="" />
+                    <div class="form-group">
+                        <label for="ProductTitle">Product Title</label>
+                        <input type="text" class="form-control" name="title" value="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Image">Image</label>
+                        <input type="file" class="form-control" name="Image" value="Upload" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Price">Price</label>
+                        <input type="text" class="form-control" name="Price" value="" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Stock">Stock</label>
+                        <input type="text" class="form-control" name="Stock" value="" />
+                    </div>
+                    <div class="model-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="model">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('#product-form-model').on('click', '#product-form button[type = "submit"]', function (event) {
+        event.preventDefault();
+
+        var formData = new FormData($('#product-form')[0]);
+
+        $.ajax(
+            {
+                URL: '/api/products',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function () {
+
+                    $('#product-form-model').model('hide');
+                    $('#product-form')[0].reset();
+
+                    getProductList();
+
+                }
+            }
+        )
+    }
+
+
+</script>
